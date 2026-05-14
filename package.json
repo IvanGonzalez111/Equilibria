@@ -1,0 +1,21 @@
+{
+  "name": "equilibria-mvp",
+  "version": "1.0.0",
+  "description": "MVP fullstack de Equilibria para equilibrar tareas en grupos.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "keywords": [
+    "express",
+    "tasks",
+    "groups",
+    "mvp"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}

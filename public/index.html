@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Equilibria</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="ambient-grid" aria-hidden="true"></div>
+
+    <div id="message-area" class="message-area" aria-live="polite"></div>
+
+    <main class="app-shell">
+      <section id="auth-screen" class="auth-screen">
+        <div class="brand-panel">
+          <div class="brand-mark">
+            <span class="scale-icon">⚖</span>
+          </div>
+          <p class="eyebrow">Equilibria</p>
+          <h1>Repartos justos, convivencia más clara.</h1>
+          <p>
+            Organiza grupos, registra esfuerzo real y asigna tareas con reglas
+            transparentes basadas en puntos acumulados.
+          </p>
+          <div class="brand-metrics">
+            <span><strong>100%</strong> persistente</span>
+            <span><strong>0</strong> IA necesaria</span>
+            <span><strong>JSON</strong> local</span>
+          </div>
+        </div>
+
+        <div class="auth-card glass-panel">
+          <div class="auth-tabs" role="tablist">
+            <button id="show-login" class="tab-button active" type="button">Iniciar sesión</button>
+            <button id="show-register" class="tab-button" type="button">Crear cuenta</button>
+          </div>
+
+          <form id="login-form" class="auth-form">
+            <label>
+              Email
+              <input name="email" type="text" inputmode="email" autocomplete="email" required />
+            </label>
+            <label>
+              Contraseña
+              <input name="password" type="password" autocomplete="current-password" required />
+            </label>
+            <button type="submit" class="primary-button">Entrar</button>
+          </form>
+
+          <form id="register-form" class="auth-form hidden">
+            <label>
+              Nombre
+              <input name="name" type="text" autocomplete="name" required />
+            </label>
+            <label>
+              Email
+              <input name="email" type="text" inputmode="email" autocomplete="email" required />
+            </label>
+            <label>
+              Contraseña
+              <input name="password" type="password" autocomplete="new-password" required />
+            </label>
+            <label>
+              Confirmar contraseña
+              <input name="confirmPassword" type="password" autocomplete="new-password" required />
+            </label>
+            <button type="submit" class="primary-button">Crear cuenta</button>
+          </form>
+        </div>
+      </section>
+
+      <section id="main-screen" class="main-screen hidden">
+        <aside class="sidebar glass-panel">
+          <div class="logo-row">
+            <span class="scale-icon">⚖</span>
+            <strong>Equilibria</strong>
+          </div>
+          <nav class="side-nav" aria-label="Navegación principal">
+            <a href="#dashboard" class="nav-link active" data-target="dashboard">Dashboard</a>
+            <a href="#groups" class="nav-link" data-target="groups">Grupos</a>
+            <a href="#members" class="nav-link" data-target="members">Integrantes</a>
+            <a href="#tasks" class="nav-link" data-target="tasks">Tareas</a>
+            <a href="#history" class="nav-link" data-target="history">Historial</a>
+            <a href="#rewards" class="nav-link" data-target="rewards">Recompensas</a>
+          </nav>
+          <div class="sidebar-actions">
+            <label class="profile-upload" title="Cambiar foto de perfil">
+              <input id="profile-photo-input" type="file" accept="image/png,image/jpeg,image/webp" />
+              <span id="profile-avatar" class="profile-avatar">?</span>
+              <span>
+                <strong id="profile-name">Usuario</strong>
+                <small>Cambiar foto</small>
+              </span>
+            </label>
+            <button id="logout-button" class="ghost-button" type="button">Cerrar sesión</button>
+          </div>
+        </aside>
+
+        <div class="workspace" id="workspace">
+          <header class="topbar glass-panel" id="session-topbar">
+            <div>
+              <p class="eyebrow">Sesión activa</p>
+              <h2 id="welcome-title">Hola</h2>
+            </div>
+            <div class="active-group-pill">
+              <span>Grupo activo</span>
+              <strong id="active-group-name">Sin grupo</strong>
+            </div>
+          </header>
+
+          <section id="dashboard-section" class="page-section active" data-view="dashboard">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">Dashboard</p>
+                <h3>Estado del grupo</h3>
+              </div>
+            </div>
+            <div class="dashboard-grid">
+              <article id="group-status-card" class="status-card glass-panel"></article>
+              <article class="glass-panel compact-panel">
+                <h4>Integrantes</h4>
+                <div id="member-summary" class="member-summary"></div>
+              </article>
+              <article class="glass-panel compact-panel">
+                <h4>Tareas pendientes</h4>
+                <div id="pending-task-list" class="stack-list"></div>
+              </article>
+            </div>
+          </section>
+
+          <section id="groups-section" class="page-section" data-view="groups" hidden>
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">Grupos</p>
+                <h3>Crear y seleccionar grupo</h3>
+              </div>
+              <div class="section-group-pill">
+                <span>Grupo activo</span>
+                <strong class="section-active-group-name">Sin grupo</strong>
+              </div>
+            </div>
+            <div class="two-column">
+              <form id="group-form" class="glass-panel form-panel">
+                <label>
+                  Nombre del grupo
+                  <input name="name" type="text" placeholder="Casa, viaje, equipo..." required />
+                </label>
+                <button type="submit" class="primary-button">Crear grupo</button>
+              </form>
+              <article class="glass-panel compact-panel">
+                <h4>Mis grupos</h4>
+                <div id="group-list" class="stack-list"></div>
+              </article>
+            </div>
+          </section>
+
+          <section id="members-section" class="page-section" data-view="members" hidden>
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">Integrantes</p>
+                <h3>Personas del grupo activo</h3>
+              </div>
+              <div class="section-group-pill">
+                <span>Grupo activo</span>
+                <strong class="section-active-group-name">Sin grupo</strong>
+              </div>
+            </div>
+            <div class="two-column">
+              <form id="member-form" class="glass-panel form-panel">
+                <label>
+                  Nombre del integrante
+                  <input name="name" type="text" placeholder="Ana" required />
+                </label>
+                <button type="submit" class="primary-button">Agregar integrante</button>
+              </form>
+              <article class="glass-panel compact-panel">
+                <h4>Lista completa</h4>
+                <div id="member-list" class="stack-list"></div>
+              </article>
+            </div>
+          </section>
+
+          <section id="tasks-section" class="page-section" data-view="tasks" hidden>
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">Tareas</p>
+                <h3>Crear, sugerir y asignar</h3>
+              </div>
+              <div class="section-group-pill">
+                <span>Grupo activo</span>
+                <strong class="section-active-group-name">Sin grupo</strong>
+              </div>
+            </div>
+            <div class="task-layout">
+              <form id="task-form" class="glass-panel form-panel task-form">
+                <label>
+                  Nombre de la tarea
+                  <input name="name" type="text" placeholder="Comprar comida" required />
+                </label>
+                <div>
+                  <span class="field-label">Tu voto de dificultad (1 a 5)</span>
+                  <div id="votes-area" class="votes-area"></div>
+                  <small>Quien crea la tarea define la dificultad antes de guardarla.</small>
+                </div>
+                <div class="difficulty-preview">
+                  <span>Dificultad final</span>
+                  <strong id="difficulty-preview">0.0</strong>
+                  <small>Se usará para sumar puntos al completar</small>
+                </div>
+                <button type="submit" class="primary-button">Guardar tarea</button>
+              </form>
+
+              <article class="glass-panel assignment-panel">
+                <div class="panel-title">
+                  <div>
+                    <p class="eyebrow">Asignación</p>
+                    <h4>Sugerencia y sorteo ponderado</h4>
+                  </div>
+                </div>
+                <div id="assignment-content" class="assignment-content"></div>
+              </article>
+            </div>
+          </section>
+
+          <section id="history-section" class="page-section" data-view="history" hidden>
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">Historial</p>
+                <h3>Tareas realizadas</h3>
+              </div>
+              <div class="section-group-pill">
+                <span>Grupo activo</span>
+                <strong class="section-active-group-name">Sin grupo</strong>
+              </div>
+            </div>
+            <article class="glass-panel compact-panel">
+              <div id="history-list" class="history-list"></div>
+            </article>
+          </section>
+
+          <section id="rewards-section" class="page-section" data-view="rewards" hidden>
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">Recompensas</p>
+                <h3>Reconocimiento por esfuerzo</h3>
+              </div>
+              <div class="section-group-pill">
+                <span>Grupo activo</span>
+                <strong class="section-active-group-name">Sin grupo</strong>
+              </div>
+            </div>
+            <article class="glass-panel compact-panel">
+              <div id="reward-list" class="reward-grid"></div>
+            </article>
+          </section>
+        </div>
+      </section>
+    </main>
+
+    <div id="celebration-modal" class="celebration-modal hidden" role="dialog" aria-modal="true" aria-live="polite"></div>
+    <div id="confirm-modal" class="confirm-modal hidden" role="dialog" aria-modal="true" aria-live="polite"></div>
+
+    <script src="/app.js"></script>
+  </body>
+</html>
