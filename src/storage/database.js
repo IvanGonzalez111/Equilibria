@@ -1,7 +1,10 @@
 const fs = require("fs");
+const os = require("os");
 const path = require("path");
 
-const dataDir = path.join(__dirname, "..", "..", "data");
+const dataDir = process.env.VERCEL
+  ? path.join(os.tmpdir(), "equilibria-data")
+  : path.join(__dirname, "..", "..", "data");
 const dataFile = path.join(dataDir, "db.json");
 
 const initialData = {
